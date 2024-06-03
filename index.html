@@ -3,18 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sigma rizzler</title>
+    <title>buddyzeze.online</title>
+    <link rel="icon" type="image/png" href="assets\luh tab icon cuh.png">
     <style>
         body {
             margin: 0;
             padding: 0;
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #4b0082, #4b0082, #800080);
             height: 100vh;
             color: white;
             overflow-x: hidden;
             overflow-y: auto;
             position: relative;
+            background: linear-gradient(135deg, #4b0082, #e066ff);
+            background-size: 400% 400%;
+            animation: gradientMove 20s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
         }
 
         .container {
@@ -64,7 +73,7 @@
         }
 
         .small-text {
-            position: absolute;
+            position: fixed;
             bottom: 10px;
             left: 10px;
             font-size: 0.8em;
@@ -73,7 +82,7 @@
         }
 
         .social-buttons {
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 20px;
             display: flex;
@@ -135,7 +144,7 @@
 
         .particle {
             position: absolute;
-            background-color: white;
+            background-color: rgba(0, 0, 0, 0.3);
             border-radius: 50%;
             opacity: 0;
             animation: fadeInOut 10s infinite;
@@ -144,24 +153,19 @@
         @keyframes fadeInOut {
             0% {
                 opacity: 0;
-                transform: translateY(0) translateX(0);
+                transform: translateY(0);
             }
             50% {
                 opacity: 1;
             }
             100% {
                 opacity: 0;
-                transform: translateY(-100vh) translateX(calc(-50vw + 100vw * var(--direction)));
+                transform: translateY(-100vh);
             }
         }
 
         .particle:nth-child(odd) {
-            background-color: purple;
-        }
-
-        .particle {
-            width: calc(2px + 8 * var(--size, 1));
-            height: calc(2px + 8 * var(--size, 1));
+            background-color: rgba(255, 255, 255, 0.3);
         }
 
         .changelog-modal {
@@ -213,6 +217,38 @@
         .fade-out {
             animation: fadeOut 0.5s ease forwards;
         }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            background-color: white;
+            animation: blink 0.8s steps(2) infinite;
+        }
+
+        @keyframes blink {
+            0% { background-color: white; }
+            50% { background-color: transparent; }
+            100% { background-color: white; }
+        }
+
+        .info-box {
+            margin: 100px auto;
+            padding: 20px;
+            height: 300px;
+            width: 600px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: white;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .info-box.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -221,81 +257,109 @@
         <div class="underline"></div>
     </div>
     <div class="hello-container">
-        <div class="hello"></div>
-        <div class="buddy-text">im buddyzeze im 13 and i enjoy making this random stuff.</div>
+        <div class="hello"></div><div class="cursor"></div>
+        <div class="buddy-text">I'm buddyzeze.</div>
     </div>
     <div class="small-text">extreme work in progress most things are subject to change.</div>
     <div class="social-buttons">
         <button id="changelog-button" class="social-button"><span>Changelog</span></button>
         <button class="social-button" onclick="window.open('https://discord.gg/w42JhFeDMa', '_blank')"><span>Discord</span></button>
-        <button class="social-button" onclick="window.open('https://www.instagram.com/average.fr/', '_blank')"><span>Instagram</span></button>
-        <button class="social-button" onclick="window.open('https://steamcommunity.com/profiles/76561199579584493/', '_blank')"><span>Steam</span></button>
-        
+<button class="social-button" onclick="window.open('https://www.instagram.com/average.fr/', '_blank')"><span>Instagram</span></button>
+<button class="social-button" onclick="window.open('https://steamcommunity.com/profiles/76561199579584493/', '_blank')"><span>Steam</span></button>
+
     </div>
     <div class="changelog-modal" id="changelog-modal">
         <button class="close-button" id="close-button">&times;</button>
         <h2>Changelog</h2>
-        <p>Version 2.0</p>
-        <p>hi guys!! im remaking the website cause i wasnt content with the other version and i wanted to change everything because it just didnt workout and i couldnt change anything cause of how bad the code was.</p>
+        <p>Version 2.1</p>
+        <p>hi guys!! decent update here: i added a tab (thanks kenna) icon changed the colors to shift fixed particles changed colors added test boxes ok thats it :3.</p>
     </div>
     <audio id="background-music" src="assets\Bill_Withers_-_Just_The_Two_Of_Us_Lyrics_-_Lyrics_Of_The_Song_youtube_VoEsEC2CLgE.ogg" loop></audio>
-    </script>
+    
+    <div class="info-box">hi cuh im zeze i like coding i know js html and css and thats it.</div>
+    <div class="info-box">why is the color fucking broken.</div>
+    <div class="info-box">box test.</div>
+    <div class="info-box">box test why is the color BROKENOJADFHIURGHORJGH.</div>
+    <div class="info-box">broken color fuck this shit im not fixiing.</div>
+
     <script>
-        for (let i = 0; i < 100; i++) {
+        function createParticle() {
             const particle = document.createElement('div');
             particle.classList.add('particle');
-            particle.style.left = `${Math.random() * 100}vw`;
-            particle.style.top = `${Math.random() * 100}vh`;
-            particle.style.animationDuration = `${8 + Math.random() * 4}s`;
-            particle.style.setProperty('--size', Math.random());
-            particle.style.setProperty('--direction', Math.random());
             document.body.appendChild(particle);
+
+            const size = Math.random() * 10 + 5 + 'px';
+            particle.style.width = size;
+            particle.style.height = size;
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = Math.random() * 100 + 'vh';
+            particle.style.animationDelay = Math.random() * 10 + 's';
         }
 
-        const helloText = ["Hey", "Hi", "Hello", "Howdy", "Hola", "Hiya", "What's up"];
-        const helloContainer = document.querySelector('.hello');
-        let currentTextIndex = 0;
-        let charIndex = 0;
-        let typing = true;
+        for (let i = 0; i < 50; i++) {
+            createParticle();
+        }
 
-        function type() {
-            if (typing) {
-                helloContainer.textContent = helloText[currentTextIndex].slice(0, charIndex++);
-                if (charIndex > helloText[currentTextIndex].length) {
-                    typing = false;
-                    setTimeout(type, 1000);
-                } else {
-                    setTimeout(type, 400);
-                }
+        const hello = document.querySelector('.hello');
+        const cursor = document.querySelector('.cursor');
+        const greetings = ['Hi', 'Hey', 'Hello', 'Greetings', 'Salutations', 'Hola', 'Bonjour', 'Hallo', 'Ciao'];
+        let i = 0, j = 0;
+        let typingSpeed = 150, backspacingSpeed = 75, pauseBetween = 1000;
+
+        function typeGreeting() {
+            if (j < greetings[i].length) {
+                hello.textContent += greetings[i][j];
+                j++;
+                setTimeout(typeGreeting, typingSpeed);
             } else {
-                charIndex = 0;
-                typing = true;
-                currentTextIndex = (currentTextIndex + 1) % helloText.length;
-                setTimeout(type, 500);
+                setTimeout(backspaceGreeting, pauseBetween);
             }
         }
 
-        type();
+        function backspaceGreeting() {
+            if (j > 0) {
+                hello.textContent = hello.textContent.slice(0, -1);
+                j--;
+                setTimeout(backspaceGreeting, backspacingSpeed);
+            } else {
+                i = (i + 1) % greetings.length;
+                setTimeout(typeGreeting, typingSpeed);
+            }
+        }
 
-        const backgroundMusic = document.getElementById('background-music');
-        window.onload = function() {
+        document.addEventListener('DOMContentLoaded', () => {
+            typeGreeting();
+
+            const backgroundMusic = document.getElementById('background-music');
             backgroundMusic.play();
-        };
 
-        const changelogButton = document.getElementById('changelog-button');
-        const changelogModal = document.getElementById('changelog-modal');
-        const closeButton = document.getElementById('close-button');
+            const changelogButton = document.getElementById('changelog-button');
+            const changelogModal = document.getElementById('changelog-modal');
+            const closeButton = document.getElementById('close-button');
 
-        changelogButton.addEventListener('click', () => {
-            changelogModal.style.display = 'block';
+            changelogButton.addEventListener('click', () => {
+                changelogModal.style.display = 'block';
+                changelogModal.classList.remove('fade-out');
+            });
+
+            closeButton.addEventListener('click', () => {
+                changelogModal.classList.add('fade-out');
+                setTimeout(() => {
+                    changelogModal.style.display = 'none';
+                    changelogModal.classList.remove('fade-out');
+                }, 500);
+            });
         });
 
-        closeButton.addEventListener('click', () => {
-            changelogModal.classList.add('fade-out');
-            setTimeout(() => {
-                changelogModal.style.display = 'none';
-                changelogModal.classList.remove('fade-out');
-            }, 500);
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.info-box').forEach((box, index) => {
+                const rect = box.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    setTimeout(() => {
+                        box.classList.add('visible');
+                    }, index * 200);
+                }
+            });
         });
     </script>
 </body>
