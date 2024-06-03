@@ -3,31 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remaking the website</title>
+    <title>Particle and Typing Animation</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #4b0082, #4b0082, #800080);
+            height: 100vh;
+            color: white;
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            text-align: left;
+            padding: 20px;
+            animation: fadeInMoveDown 2s ease forwards;
+            position: relative;
+            z-index: 2;
+        }
+
+        .container h1 {
+            font-size: 2em;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .underline {
+            width: 100%;
+            border-top: 1px dashed white;
+            margin-top: 10px;
+        }
+
+        .hello-container {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            height: calc(100vh - 60px);
+            animation: fadeInMoveDown 2s ease forwards;
+            position: relative;
+            z-index: 2;
         }
-        h1 {
-            font-size: 48px;
+
+        .hello {
+            font-size: 5em;
+            font-family: 'Courier New', Courier, monospace;
             text-align: center;
+            white-space: nowrap;
         }
-        p {
-            font-size: 24px;
-            text-align: center;
-            margin: 10px 0 0;
+
+        .buddy-text {
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .small-text {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 0.8em;
+            color: #ccc;
+            z-index: 2;
+        }
+
+        .social-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            animation: fadeInMoveDown 2s ease forwards;
+            z-index: 2;
+        }
+
+        .social-button {
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Arial', sans-serif;
+            font-size: 1em;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .social-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: purple;
+            transition: left 0.3s;
+            z-index: 1;
+        }
+
+        .social-button:hover::before {
+            left: 0;
+        }
+
+        .social-button:hover {
+            transform: scale(1.05);
+        }
+
+        .social-button span {
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes fadeInMoveDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .particle {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: fadeInOut 10s infinite;
+        }
+
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) translateX(calc(-50vw + 100vw * var(--direction)));
+            }
+        }
+
+        .particle:nth-child(odd) {
+            background-color: purple;
+        }
+
+        .particle {
+            width: calc(2px + 8 * var(--size, 1));
+            height: calc(2px + 8 * var(--size, 1));
+        }
+
+        .changelog-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            color: black;
+            width: 80%;
+            height: 80%;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 3;
+            animation: fadeIn 0.5s ease forwards;
+            border: 1px solid black;
+            overflow-y: auto;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s ease forwards;
         }
     </style>
 </head>
 <body>
-    <h1>Remaking the website.</h1>
-    <p>I love you all ❤️</p>
+    <div class="container">
+        <h1>buddyzeze.</h1>
+        <div class="underline"></div>
+    </div>
+    <div class="hello-container">
+        <div class="hello"></div>
+        <div class="buddy-text">im buddyzeze im 13 and i enjoy making this random stuff.</div>
+    </div>
+    <div class="small-text">extreme work in progress most things are subject to change.</div>
+    <div class="social-buttons">
+        <button id="changelog-button" class="social-button"><span>Changelog</span></button>
+        <button class="social-button" onclick="window.open('https://discord.gg/w42JhFeDMa', '_blank')"><span>Discord</span></button>
+        <button class="social-button" onclick="window.open('https://www.instagram.com/average.fr/', '_blank')"><span>Instagram</span></button>
+        <button class="social-button" onclick="window.open('https://steamcommunity.com/profiles/76561199579584493/', '_blank')"><span>Steam</span></button>
+        
+    </div>
+    <div class="changelog-modal" id="changelog-modal">
+        <button class="close-button" id="close-button">&times;</button>
+        <h2>Changelog</h2>
+        <p>Version 2.0</p>
+        <p>hi guys!! im remaking the website cause i wasnt content with the other version and i wanted to change everything because it just didnt workout and i couldnt change anything cause of how bad the code was.</p>
+    </div>
+    <audio id="background-music" src="assets\Bill_Withers_-_Just_The_Two_Of_Us_Lyrics_-_Lyrics_Of_The_Song_youtube_VoEsEC2CLgE.ogg" loop></audio>
+    </script>
+    <script>
+        for (let i = 0; i < 100; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.top = `${Math.random() * 100}vh`;
+            particle.style.animationDuration = `${8 + Math.random() * 4}s`;
+            particle.style.setProperty('--size', Math.random());
+            particle.style.setProperty('--direction', Math.random());
+            document.body.appendChild(particle);
+        }
+
+        const helloText = ["Hey", "Hi", "Hello", "Howdy", "Hola", "Hiya", "What's up"];
+        const helloContainer = document.querySelector('.hello');
+        let currentTextIndex = 0;
+        let charIndex = 0;
+        let typing = true;
+
+        function type() {
+            if (typing) {
+                helloContainer.textContent = helloText[currentTextIndex].slice(0, charIndex++);
+                if (charIndex > helloText[currentTextIndex].length) {
+                    typing = false;
+                    setTimeout(type, 1000);
+                } else {
+                    setTimeout(type, 400);
+                }
+            } else {
+                charIndex = 0;
+                typing = true;
+                currentTextIndex = (currentTextIndex + 1) % helloText.length;
+                setTimeout(type, 500);
+            }
+        }
+
+        type();
+
+        const backgroundMusic = document.getElementById('background-music');
+        window.onload = function() {
+            backgroundMusic.play();
+        };
+
+        const changelogButton = document.getElementById('changelog-button');
+        const changelogModal = document.getElementById('changelog-modal');
+        const closeButton = document.getElementById('close-button');
+
+        changelogButton.addEventListener('click', () => {
+            changelogModal.style.display = 'block';
+        });
+
+        closeButton.addEventListener('click', () => {
+            changelogModal.classList.add('fade-out');
+            setTimeout(() => {
+                changelogModal.style.display = 'none';
+                changelogModal.classList.remove('fade-out');
+            }, 500);
+        });
+    </script>
 </body>
 </html>
