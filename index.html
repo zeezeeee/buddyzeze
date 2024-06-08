@@ -288,7 +288,7 @@
         <div class="buddy-text">I'm buddyzeze.</div>
     </div>
     <div class="small-text">extreme work in progress most things are subject to change.</div>
-    <div class="view-counter" id="view-counter">Unique Views: 0</div>
+    <div class="view-counter" id="view-counter">Website Views: 0</div>
     <div class="social-buttons">
         <button id="changelog-button" class="social-button"><span>Changelog</span></button>
         <button id="settings-button" class="social-button"><span>Settings</span></button>
@@ -358,7 +358,6 @@
                 document.querySelector('.cursor').style.display = cursorVisible ? 'inline-block' : 'none';
             });
 
-            // View counter
             const viewCounter = document.getElementById('view-counter');
             let views = localStorage.getItem('uniqueViews');
             if (!views) {
@@ -371,7 +370,6 @@
             viewCounter.textContent = `Unique Views: ${views}`;
         });
 
-        // Generate random particles
         const particleCount = 50;
 
         for (let i = 0; i < particleCount; i++) {
