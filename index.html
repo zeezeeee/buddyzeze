@@ -81,6 +81,15 @@
             z-index: 2;
         }
 
+        .view-counter {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8em;
+            color: #ccc;
+            z-index: 2;
+        }
+
         .social-buttons {
             position: fixed;
             top: 20px;
@@ -279,6 +288,7 @@
         <div class="buddy-text">I'm buddyzeze.</div>
     </div>
     <div class="small-text">extreme work in progress most things are subject to change.</div>
+    <div class="view-counter" id="view-counter">Unique Views: 0</div>
     <div class="social-buttons">
         <button id="changelog-button" class="social-button"><span>Changelog</span></button>
         <button id="settings-button" class="social-button"><span>Settings</span></button>
@@ -289,171 +299,97 @@
     <div class="changelog-modal" id="changelog-modal">
         <button class="close-button" id="close-changelog">&times;</button>
         <h2>Changelog</h2>
-        <p>Version 2.2</p>
-        <p>update again uhh i add setting and you can change colors n shit yuh if problem go to discord</p>
+        <p>- Added a changelog modal to the website.</p>
+        <p>- Added a settings modal to the website.</p>
+        <p>- Implemented dynamic background color based on user input.</p>
+        <p>- Enhanced the overall UI/UX with animations and transitions.</p>
     </div>
     <div class="settings-modal" id="settings-modal">
         <button class="close-button" id="close-settings">&times;</button>
         <h2>Settings</h2>
         <form class="settings-form">
-            <label for="bg-color1">Background Gradient Color 1:
-                <input type="color" id="bg-color1" name="bg-color1" value="#4b0082">
-            </label>
-            <label for="bg-color2">Background Gradient Color 2:
-                <input type="color" id="bg-color2" name="bg-color2" value="#e066ff">
-            </label>
-            <label for="particle-color">Particle Color:
-                <input type="color" id="particle-color" name="particle-color" value="#ffffff">
-            </label>
-            <label for="toggle-animation">Toggle Animation:
-                <input type="checkbox" id="toggle-animation" name="toggle-animation" checked>
-            </label>
+            <label>Background Color: <input type="color" id="bg-color-picker"></label>
+            <label><input type="checkbox" id="toggle-cursor"> Enable Typing Cursor</label>
         </form>
     </div>
 
     <script>
-        const texts = ['Hi.', 'Hello.', 'Hola.', 'Howdy.', 'hey cuh.'];
-        let index = 0;
-        const helloContainer = document.querySelector('.hello');
-        const cursor = document.querySelector('.cursor');
+        let i = 0;
+        const txt = 'hello.';
+        const speed = 100;
+        let cursorVisible = true;
 
-        const typingSpeed = 100;
-        const erasingSpeed = 50;
-        const delayBetweenTexts = 2000;
-
-        function typeText(text, callback) {
-            let charIndex = 0;
-            const typeInterval = setInterval(() => {
-                if (charIndex < text.length) {
-                    helloContainer.textContent += text.charAt(charIndex);
-                    charIndex++;
-                } else {
-                    clearInterval(typeInterval);
-                    setTimeout(callback, delayBetweenTexts);
-                }
-            }, typingSpeed);
-        }
-
-        function eraseText(callback) {
-            let charIndex = helloContainer.textContent.length;
-            const eraseInterval = setInterval(() => {
-                if (charIndex > 0) {
-                    helloContainer.textContent = helloContainer.textContent.substring(0, charIndex - 1);
-                    charIndex--;
-                } else {
-                    clearInterval(eraseInterval);
-                    setTimeout(callback, 500);
-                }
-            }, erasingSpeed);
-        }
-
-        function loopThroughTexts() {
-            typeText(texts[index], () => {
-                eraseText(() => {
-                    index = (index + 1) % texts.length;
-                    loopThroughTexts();
-                });
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(loopThroughTexts, 1000);
-        });
-
-        const changelogButton = document.getElementById('changelog-button');
-        const changelogModal = document.getElementById('changelog-modal');
-        const closeChangelog = document.getElementById('close-changelog');
-
-        changelogButton.addEventListener('click', () => {
-            changelogModal.style.display = 'block';
-        });
-
-        closeChangelog.addEventListener('click', () => {
-            changelogModal.style.animation = 'fadeOut 0.5s ease forwards';
-            setTimeout(() => {
-                changelogModal.style.display = 'none';
-                changelogModal.classList.remove('fade-out');
-            }, 500);
-        });
-
-        const settingsButton = document.getElementById('settings-button');
-        const settingsModal = document.getElementById('settings-modal');
-        const closeSettings = document.getElementById('close-settings');
-
-        settingsButton.addEventListener('click', () => {
-            settingsModal.style.display = 'block';
-        });
-
-        closeSettings.addEventListener('click', () => {
-            settingsModal.style.animation = 'fadeOut 0.5s ease forwards';
-            setTimeout(() => {
-                settingsModal.style.display = 'none';
-                settingsModal.classList.remove('fade-out');
-            }, 500);
-        });
-
-        const bgColorInput1 = document.getElementById('bg-color1');
-        const bgColorInput2 = document.getElementById('bg-color2');
-        const particleColorInput = document.getElementById('particle-color');
-        const toggleAnimationInput = document.getElementById('toggle-animation');
-
-        bgColorInput1.addEventListener('input', updateBackgroundGradient);
-        bgColorInput2.addEventListener('input', updateBackgroundGradient);
-
-        particleColorInput.addEventListener('input', (event) => {
-            const particles = document.querySelectorAll('.particle');
-            particles.forEach(particle => {
-                const color = event.target.value;
-                const lighterColor = lightenColor(color, 0.7);
-                particle.style.backgroundColor = particle.classList.contains('odd') ? lighterColor : color;
-            });
-        });
-
-        toggleAnimationInput.addEventListener('change', (event) => {
-            if (event.target.checked) {
-                document.body.style.animation = 'gradientMove 20s ease infinite';
-            } else {
-                document.body.style.animation = 'none';
+        function typeWriter() {
+            if (i < txt.length) {
+                document.querySelector('.hello').textContent += txt.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
             }
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            typeWriter();
+            setTimeout(() => {
+                document.querySelector('.info-box').classList.add('visible');
+            }, 3000);
+
+            document.getElementById('changelog-button').addEventListener('click', () => {
+                document.getElementById('changelog-modal').style.display = 'block';
+            });
+
+            document.getElementById('settings-button').addEventListener('click', () => {
+                document.getElementById('settings-modal').style.display = 'block';
+            });
+
+            document.getElementById('close-changelog').addEventListener('click', () => {
+                document.getElementById('changelog-modal').style.display = 'none';
+            });
+
+            document.getElementById('close-settings').addEventListener('click', () => {
+                document.getElementById('settings-modal').style.display = 'none';
+            });
+
+            document.getElementById('bg-color-picker').addEventListener('input', (event) => {
+                document.body.style.backgroundColor = event.target.value;
+            });
+
+            document.getElementById('toggle-cursor').addEventListener('change', (event) => {
+                cursorVisible = event.target.checked;
+                document.querySelector('.cursor').style.display = cursorVisible ? 'inline-block' : 'none';
+            });
+
+            // View counter
+            const viewCounter = document.getElementById('view-counter');
+            let views = localStorage.getItem('uniqueViews');
+            if (!views) {
+                views = 0;
+            } else {
+                views = parseInt(views, 10);
+            }
+            views++;
+            localStorage.setItem('uniqueViews', views);
+            viewCounter.textContent = `Unique Views: ${views}`;
         });
 
-        function updateBackgroundGradient() {
-            const color1 = bgColorInput1.value;
-            const color2 = bgColorInput2.value;
-            document.body.style.background = `linear-gradient(135deg, ${color1}, ${color2})`;
-        }
+        // Generate random particles
+        const particleCount = 50;
 
-        function lightenColor(color, percent) {
-            const num = parseInt(color.replace("#", ""), 16);
-            const amt = Math.round(2.55 * percent * 100);
-            const R = (num >> 16) + amt;
-            const G = (num >> 8 & 0x00FF) + amt;
-            const B = (num & 0x0000FF) + amt;
-            return `#${(0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1)}`;
-        }
-
-        const particlesContainer = document.createElement('div');
-        particlesContainer.className = 'particles';
-        document.body.appendChild(particlesContainer);
-
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
-            particle.className = 'particle';
-            const size = Math.random() * 5 + 5;
+            particle.classList.add('particle');
+            document.body.appendChild(particle);
+
+            const size = Math.random() * 5 + 2;
+            const left = Math.random() * 100;
+            const delay = Math.random() * 10;
+            const duration = Math.random() * 5 + 5;
+
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
-            particle.style.left = `${Math.random() * 100}%`;
-            particle.style.animationDuration = `${Math.random() * 5 + 5}s`;
-            if (i % 2 !== 0) particle.classList.add('odd');
-            particlesContainer.appendChild(particle);
+            particle.style.left = `${left}%`;
+            particle.style.animationDelay = `${delay}s`;
+            particle.style.animationDuration = `${duration}s`;
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const infoBox = document.querySelector('.info-box');
-            setTimeout(() => {
-                infoBox.classList.add('visible');
-            }, 1000);
-        });
     </script>
 </body>
 </html>
