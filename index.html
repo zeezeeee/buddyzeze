@@ -12,18 +12,9 @@
             font-family: 'Arial', sans-serif;
             height: 100vh;
             color: white;
-            overflow-x: hidden;
-            overflow-y: auto;
+            overflow: hidden;
             position: relative;
-            background: linear-gradient(135deg, #4b0082, #e066ff);
-            background-size: 400% 400%;
-            animation: gradientMove 20s ease infinite;
-        }
-
-        @keyframes gradientMove {
-            0% {background-position: 0% 50%;}
-            50% {background-position: 100% 50%;}
-            100% {background-position: 0% 50%;}
+            background: linear-gradient(135deg, #8e2de2, #4a00e0);
         }
 
         .container {
@@ -151,32 +142,6 @@
             }
         }
 
-        .particle {
-            position: absolute;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 50%;
-            opacity: 0;
-            animation: fadeInOut 10s infinite;
-        }
-
-        @keyframes fadeInOut {
-            0% {
-                opacity: 0;
-                transform: translateY(0);
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-100vh);
-            }
-        }
-
-        .particle:nth-child(odd) {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-
         .changelog-modal, .settings-modal {
             display: none;
             position: fixed;
@@ -276,9 +241,27 @@
             margin-left: 10px;
             cursor: pointer;
         }
+
+        #bg-color-picker-1 {
+            display: none;
+        }
+
+        #bg-color-picker-2 {
+            display: none;
+        }
+
+        #bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
+    <div id="bg-canvas"></div>
     <div class="container">
         <h1>buddyzeze.</h1>
         <div class="underline"></div>
@@ -299,95 +282,137 @@
     <div class="changelog-modal" id="changelog-modal">
         <button class="close-button" id="close-changelog">&times;</button>
         <h2>Changelog</h2>
-        <p>- Added a changelog modal to the website.</p>
-        <p>- Added a settings modal to the website.</p>
-        <p>- Implemented dynamic background color based on user input.</p>
-        <p>- Enhanced the overall UI/UX with animations and transitions.</p>
+        <p>- cube</p>
+        <p>- cube</p>
+        <p>- test cubes</p>
+        <p>- nothing esle</p>
     </div>
     <div class="settings-modal" id="settings-modal">
         <button class="close-button" id="close-settings">&times;</button>
         <h2>Settings</h2>
-        <form class="settings-form">
-            <label>Background Color: <input type="color" id="bg-color-picker"></label>
-            <label><input type="checkbox" id="toggle-cursor"> Enable Typing Cursor</label>
-        </form>
+        <div class="settings-form">
+            <label for="bg-color-toggle">Custom background colors:</label>
+            <input type="checkbox" id="bg-color-toggle">
+            <label for="bg-color-picker-1">Top color:</label>
+            <input type="color" id="bg-color-picker-1" value="#8e2de2">
+            <label for="bg-color-picker-2">Bottom color:</label>
+            <input type="color" id="bg-color-picker-2" value="#4a00e0">
+        </div>
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        let i = 0;
-        const txt = 'hello.';
-        const speed = 100;
-        let cursorVisible = true;
+        document.addEventListener("DOMContentLoaded", function() {
+            const canvasContainer = document.getElementById('bg-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            canvasContainer.appendChild(renderer.domElement);
 
-        function typeWriter() {
-            if (i < txt.length) {
-                document.querySelector('.hello').textContent += txt.charAt(i);
-                i++;
-                setTimeout(typeWriter, speed);
+            let cubes = [];
+
+            function createCube() {
+                const geometry = new THREE.BoxGeometry();
+                const material = new THREE.MeshBasicMaterial({
+                    color: Math.random() * 0xffffff,
+                    wireframe: true
+                });
+                const cube = new THREE.Mesh(geometry, material);
+                cube.position.x = (Math.random() - 0.5) * 20;
+                cube.position.y = -10;
+                cube.position.z = (Math.random() - 0.5) * 20;
+                cube.rotationSpeedX = (Math.random() - 0.5) * 0.05;
+                cube.rotationSpeedY = (Math.random() - 0.5) * 0.05;
+                cubes.push(cube);
+                scene.add(cube);
             }
-        }
 
-        document.addEventListener('DOMContentLoaded', (event) => {
-            typeWriter();
-            setTimeout(() => {
-                document.querySelector('.info-box').classList.add('visible');
-            }, 3000);
+            function animate() {
+                requestAnimationFrame(animate);
 
-            document.getElementById('changelog-button').addEventListener('click', () => {
-                document.getElementById('changelog-modal').style.display = 'block';
-            });
+                cubes.forEach((cube, index) => {
+                    cube.rotation.x += cube.rotationSpeedX;
+                    cube.rotation.y += cube.rotationSpeedY;
+                    cube.position.y += 0.05;
 
-            document.getElementById('settings-button').addEventListener('click', () => {
-                document.getElementById('settings-modal').style.display = 'block';
-            });
+                    if (cube.position.y > 10) {
+                        scene.remove(cube);
+                        cubes.splice(index, 1);
+                    }
+                });
 
-            document.getElementById('close-changelog').addEventListener('click', () => {
-                document.getElementById('changelog-modal').style.display = 'none';
-            });
-
-            document.getElementById('close-settings').addEventListener('click', () => {
-                document.getElementById('settings-modal').style.display = 'none';
-            });
-
-            document.getElementById('bg-color-picker').addEventListener('input', (event) => {
-                document.body.style.backgroundColor = event.target.value;
-            });
-
-            document.getElementById('toggle-cursor').addEventListener('change', (event) => {
-                cursorVisible = event.target.checked;
-                document.querySelector('.cursor').style.display = cursorVisible ? 'inline-block' : 'none';
-            });
-
-            const viewCounter = document.getElementById('view-counter');
-            let views = localStorage.getItem('uniqueViews');
-            if (!views) {
-                views = 0;
-            } else {
-                views = parseInt(views, 10);
+                renderer.render(scene, camera);
             }
-            views++;
-            localStorage.setItem('uniqueViews', views);
-            viewCounter.textContent = `Unique Views: ${views}`;
+
+            setInterval(createCube, 1000);
+
+            animate();
+
+            camera.position.z = 5;
+
+            const changelogButton = document.getElementById('changelog-button');
+            const changelogModal = document.getElementById('changelog-modal');
+            const closeChangelogButton = document.getElementById('close-changelog');
+
+            changelogButton.addEventListener('click', () => {
+                changelogModal.style.display = 'block';
+            });
+
+            closeChangelogButton.addEventListener('click', () => {
+                changelogModal.style.display = 'none';
+            });
+
+            const settingsButton = document.getElementById('settings-button');
+            const settingsModal = document.getElementById('settings-modal');
+            const closeSettingsButton = document.getElementById('close-settings');
+
+            settingsButton.addEventListener('click', () => {
+                settingsModal.style.display = 'block';
+            });
+
+            closeSettingsButton.addEventListener('click', () => {
+                settingsModal.style.display = 'none';
+            });
+
+            const bgColorToggle = document.getElementById('bg-color-toggle');
+            const bgColorPicker1 = document.getElementById('bg-color-picker-1');
+            const bgColorPicker2 = document.getElementById('bg-color-picker-2');
+
+            bgColorToggle.addEventListener('change', () => {
+                if (bgColorToggle.checked) {
+                    bgColorPicker1.style.display = 'block';
+                    bgColorPicker2.style.display = 'block';
+                    document.body.style.background = `linear-gradient(135deg, ${bgColorPicker1.value}, ${bgColorPicker2.value})`;
+                } else {
+                    bgColorPicker1.style.display = 'none';
+                    bgColorPicker2.style.display = 'none';
+                    document.body.style.background = 'linear-gradient(135deg, #8e2de2, #4a00e0)';
+                }
+            });
+
+            bgColorPicker1.addEventListener('input', () => {
+                document.body.style.background = `linear-gradient(135deg, ${bgColorPicker1.value}, ${bgColorPicker2.value})`;
+            });
+
+            bgColorPicker2.addEventListener('input', () => {
+                document.body.style.background = `linear-gradient(135deg, ${bgColorPicker1.value}, ${bgColorPicker2.value})`;
+            });
+
+            const cursor = document.querySelector('.cursor');
+            const hello = document.querySelector('.hello');
+            let index = 0;
+            const text = "Hello World";
+            
+            function type() {
+                if (index < text.length) {
+                    hello.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(type, 150);
+                }
+            }
+            
+            type();
         });
-
-        const particleCount = 50;
-
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            document.body.appendChild(particle);
-
-            const size = Math.random() * 5 + 2;
-            const left = Math.random() * 100;
-            const delay = Math.random() * 10;
-            const duration = Math.random() * 5 + 5;
-
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            particle.style.left = `${left}%`;
-            particle.style.animationDelay = `${delay}s`;
-            particle.style.animationDuration = `${duration}s`;
-        }
     </script>
 </body>
 </html>
