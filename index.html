@@ -38,6 +38,7 @@
             display: none;
             opacity: 0;
             transition: opacity 2s ease;
+            text-align: center;
         }
 
         @keyframes backgroundAnimation {
@@ -82,6 +83,7 @@
 
         .button-container {
             display: flex;
+            justify-content: center;
             gap: 15px;
         }
 
@@ -166,24 +168,6 @@
                 transform: translateX(0);
             }
         }
-
-        .visualizer-bar {
-            width: 4px;
-            height: 20px;
-            margin: 0 2px;
-            background-color: white;
-            animation: visualizerAnimation 1s infinite;
-        }
-
-        @keyframes visualizerAnimation {
-            0%, 100% {
-                height: 20px;
-            }
-
-            50% {
-                height: 50px;
-            }
-        }
     </style>
     <link rel="icon" href="path_to_your_favicon.ico" type="image/x-icon">
 </head>
@@ -199,19 +183,9 @@
             <a href="https://open.spotify.com/user/31mayrcxvtyz32r7qcbngggs2tny" class="social-button">Spotify</a>
             <a href="https://www.instagram.com/average.fr/" class="social-button">Instagram</a>
         </div>
-
-        <audio id="background-music" src="assets/youtube_oN8krin5fNM_audio.mp3" loop></audio>
-
-        <div class="song-name-container">
-            <div class="song-name">Met Her On The Internet By Kempachii</div>
-            <div id="visualizer">
-                <div class="visualizer-bar"></div>
-                <div class="visualizer-bar"></div>
-                <div class="visualizer-bar"></div>
-                <div class="visualizer-bar"></div>
-            </div>
-        </div>
     </div>
+
+    <audio id="background-music" src="assets/youtube_oN8krin5fNM_audio.mp3" loop></audio>
 
     <script>
         const enterButton = document.getElementById('enter-button');
@@ -226,6 +200,7 @@
                 document.body.style.animation = "backgroundAnimation 10s ease infinite";
                 content.style.opacity = '1';
                 audio.play();
+                audioContext.resume();
             }, 100);
         });
 
@@ -245,6 +220,18 @@
         const randomIndex = Math.floor(Math.random() * subTextOptions.length);
         document.getElementById('subText').textContent = subTextOptions[randomIndex];
 
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const audioElement = document.getElementById('background-music');
+        const track = audioContext.createMediaElementSource(audioElement);
+        const analyser = audioContext.createAnalyser();
+
+        track.connect(analyser);
+        analyser.connect(audioContext.destination);
+        analyser.fftSize = 256;
+
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+
         for (let i = 0; i < 100; i++) {
             const particle = document.createElement('div');
             particle.classList.add('particle');
@@ -255,6 +242,21 @@
             particle.style.animationDelay = `${Math.random() * 10}s`;
             document.body.appendChild(particle);
         }
+
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            analyser.getByteFrequencyData(dataArray);
+
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach((particle, index) => {
+                const size = dataArray[index % bufferLength] / 255 * 20 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.animationDuration = `${6 - (dataArray[index % bufferLength] / 255 * 3)}s`;
+            });
+        }
+
+        animateParticles();
     </script>
 </body>
 </html>
