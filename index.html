@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Experience</title>
+    <title></title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -14,10 +15,9 @@
             align-items: center;
             background-color: black;
             overflow: hidden;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
-        /* Full screen black overlay */
         #overlay {
             position: absolute;
             top: 0;
@@ -30,11 +30,12 @@
             align-items: center;
             color: white;
             font-size: 3rem;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             cursor: pointer;
             opacity: 1;
             z-index: 2;
             transition: opacity 1.5s ease;
+            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7);
         }
 
         #overlay.hidden {
@@ -42,7 +43,6 @@
             pointer-events: none;
         }
 
-        /* Background image */
         #background {
             position: absolute;
             top: 0;
@@ -53,12 +53,11 @@
             z-index: -1;
         }
 
-        /* Expanding box */
         .box {
             width: 20px;
             height: 20px;
-            background-color: rgba(255, 255, 255, 0); /* Fully transparent */
-            border: 3px solid rgba(255, 255, 255, 0.5); /* Semi-transparent */
+            background-color: rgba(255, 255, 255, 0);
+            border: 3px solid rgba(255, 255, 255, 0.5);
             border-radius: 15px;
             display: flex;
             justify-content: center;
@@ -66,7 +65,7 @@
             position: relative;
             z-index: 1;
             opacity: 0;
-            animation: expandBox 2s ease forwards 1.5s; /* Delay for overlay fade */
+            animation: expandBox 2s ease forwards 1.5s;
         }
 
         @keyframes expandBox {
@@ -81,18 +80,18 @@
             100% {
                 width: 400px;
                 height: 400px;
-                background-color: rgba(0, 0, 0, 0); /* Mimics background */
+                background-color: rgba(0, 0, 0, 0);
             }
         }
 
-        /* Text inside expanding box */
         .box-text {
             color: white;
             font-size: 2rem;
             position: absolute;
             bottom: 20%;
             opacity: 0;
-            animation: fadeInText 1.5s ease forwards 3.5s; /* After the box expansion */
+            animation: fadeInText 1.5s ease forwards 3.5s;
+            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7);
         }
 
         @keyframes fadeInText {
@@ -107,13 +106,10 @@
 </head>
 <body>
 
-    <!-- Initial black screen overlay with "Enter?" -->
     <div id="overlay" onclick="enterSite()">Enter?</div>
 
-    <!-- Background image -->
     <div id="background"></div>
 
-    <!-- Expanding see-through box -->
     <div class="box">
         <div class="box-text">buddyzeze</div>
     </div>
@@ -122,12 +118,22 @@
 
     <script>
         function enterSite() {
-            // Fade out the black screen
             document.getElementById('overlay').classList.add('hidden');
-            
-            // Play the audio
             document.getElementById('background-audio').play();
         }
+
+        let titleText = 'buddyzeze';
+        let index = 0;
+
+        function typeTitle() {
+            if (index < titleText.length) {
+                document.title += titleText.charAt(index);
+                index++;
+                setTimeout(typeTitle, 200);
+            }
+        }
+
+        typeTitle();
     </script>
 </body>
 </html>
