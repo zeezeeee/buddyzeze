@@ -56,7 +56,7 @@
         .box {
             width: 20px;
             height: 20px;
-            background-color: rgba(255, 255, 255, 0);
+            background-color: rgba(255, 255, 255, 0.1);
             border: 3px solid rgba(255, 255, 255, 0.5);
             border-radius: 15px;
             display: flex;
@@ -66,6 +66,8 @@
             z-index: 1;
             opacity: 0;
             animation: expandBox 2s ease forwards 1.5s;
+            background-image: url('/mnt/data/image.png');
+            background-size: cover;
         }
 
         @keyframes expandBox {
@@ -80,7 +82,7 @@
             100% {
                 width: 400px;
                 height: 400px;
-                background-color: rgba(0, 0, 0, 0);
+                background-color: rgba(255, 255, 255, 1);
             }
         }
 
@@ -88,10 +90,20 @@
             color: white;
             font-size: 2rem;
             position: absolute;
-            bottom: 20%;
+            bottom: 40%;
             opacity: 0;
-            animation: fadeInText 1.5s ease forwards 3.5s;
             text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7);
+            animation: fadeInText 1.5s ease forwards 3.5s;
+        }
+
+        .placeholder-text {
+            color: white;
+            font-size: 1rem;
+            position: absolute;
+            bottom: 30%;
+            opacity: 0;
+            text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.5);
+            animation: fadeInText 1s ease forwards 4.5s;
         }
 
         @keyframes fadeInText {
@@ -112,6 +124,7 @@
 
     <div class="box">
         <div class="box-text">buddyzeze</div>
+        <div class="placeholder-text">placeholder</div>
     </div>
 
     <audio id="background-audio" src="your-audio.mp3"></audio>
