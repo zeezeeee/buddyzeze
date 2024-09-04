@@ -3,23 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>U-M</title>
+    <title>Expanding Box</title>
     <style>
         body {
-            background-color: white;
-            color: black;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: Arial, sans-serif;
-            font-size: 2em;
+            background-color: #333; /* Dark background */
+        }
+
+        .box {
+            width: 50px;
+            height: 50px;
+            background-color: #00bfff; /* Light blue color */
+            animation: expandBox 3s ease forwards;
+        }
+
+        @keyframes expandBox {
+            0% {
+                width: 50px;
+                height: 50px;
+            }
+            100% {
+                width: 300px;
+                height: 300px;
+            }
         }
     </style>
 </head>
 <body>
-    you r probably from cs2
-site is under maintenance
+    <div class="box"></div>
 </body>
 </html>
