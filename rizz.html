@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:url" content="/" />
+  <meta property="og:title" content="Python UnGrabber" />
+
+  <meta property="og:site_name" content="Python Ungrabber" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="twitter:title" content="Python Ungrabber">
+  <meta property="og:description" content="A website to get webhook of known python grabber" />
+  <meta name="description" content="Ungrabber is a website where you can get webhook of any known python grabber">
+  <link rel="stylesheet" href="/static/style.css">
+  <title>Ungrabber</title>
+<script data-cfasync="false" nonce="b37bfce9-8991-48af-b0ac-46b341775e67">try{(function(w,d){!function(j,k,l,m){if(j.zaraz)console.error("zaraz is loaded twice");else{j[l]=j[l]||{};j[l].executed=[];j.zaraz={deferred:[],listeners:[]};j.zaraz._v="5838";j.zaraz._n="b37bfce9-8991-48af-b0ac-46b341775e67";j.zaraz.q=[];j.zaraz._f=function(n){return async function(){var o=Array.prototype.slice.call(arguments);j.zaraz.q.push({m:n,a:o})}};for(const p of["track","set","debug"])j.zaraz[p]=j.zaraz._f(p);j.zaraz.init=()=>{var q=k.getElementsByTagName(m)[0],r=k.createElement(m),s=k.getElementsByTagName("title")[0];s&&(j[l].t=k.getElementsByTagName("title")[0].text);j[l].x=Math.random();j[l].w=j.screen.width;j[l].h=j.screen.height;j[l].j=j.innerHeight;j[l].e=j.innerWidth;j[l].l=j.location.href;j[l].r=k.referrer;j[l].k=j.screen.colorDepth;j[l].n=k.characterSet;j[l].o=(new Date).getTimezoneOffset();if(j.dataLayer)for(const t of Object.entries(Object.entries(dataLayer).reduce(((u,v)=>({...u[1],...v[1]})),{})))zaraz.set(t[0],t[1],{scope:"page"});j[l].q=[];for(;j.zaraz.q.length;){const w=j.zaraz.q.shift();j[l].q.push(w)}r.defer=!0;for(const x of[localStorage,sessionStorage])Object.keys(x||{}).filter((z=>z.startsWith("_zaraz_"))).forEach((y=>{try{j[l]["z_"+y.slice(7)]=JSON.parse(x.getItem(y))}catch{j[l]["z_"+y.slice(7)]=x.getItem(y)}}));r.referrerPolicy="origin";r.src="/cdn-cgi/zaraz/s.js?z="+btoa(encodeURIComponent(JSON.stringify(j[l])));q.parentNode.insertBefore(r,q)};["complete","interactive"].includes(k.readyState)?zaraz.init():j.addEventListener("DOMContentLoaded",zaraz.init)}}(w,d,"zarazData","script");window.zaraz._p=async bs=>new Promise((bt=>{if(bs){bs.e&&bs.e.forEach((bu=>{try{const bv=d.querySelector("script[nonce]"),bw=bv?.nonce||bv?.getAttribute("nonce"),bx=d.createElement("script");bw&&(bx.nonce=bw);bx.innerHTML=bu;bx.onload=()=>{d.head.removeChild(bx)};d.head.appendChild(bx)}catch(by){console.error(`Error executing script: ${bu}\n`,by)}}));Promise.allSettled((bs.f||[]).map((bz=>fetch(bz[0],bz[1]))))}bt()}));zaraz._p({"e":["(function(w,d){})(window,document)"]});})(window,document)}catch(e){throw fetch("/cdn-cgi/zaraz/t"),e;};</script></head>
+<body>
+  <script type="text/javascript">
+   var uid = '483794';
+   var wid = '730274';
+   var pop_tag = document.createElement('script');pop_tag.src='//cdn.popcash.net/show.js';document.body.appendChild(pop_tag);
+   pop_tag.onerror = function() {pop_tag = document.createElement('script');pop_tag.src='//cdn2.popcash.net/show.js';document.body.appendChild(pop_tag)};
+  </script>  
+  <h1 class="ch1">Python Ungrabber</h1>
+  <h1 class="mobile">This service does not support tiny screen for the moment please go on pc or activate Computer Mode on phone</h1>
+  <div class="idk" id="upload">
+    <h1 id="dragtext">Drag your file or click here</h1>
+  </div>
+  <h1 class="restype" id="restype">Result:</h1>
+  <h1 class="ch2" id="ch2" onclick="copyToClipboard()"></h1>
+  <h1 class="support">Hey this service is free so i decided to open a kofi account for any person who want to support the project:</h1>
+  <a href="https://discord.gg/zypxgScGUg" target="_blank"><i class="fa-brands fa-discord"></i></a>
+  <a href="https://ko-fi.com/lululepu" class="supporta">Buy me a coffee</a>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://kit.fontawesome.com/b274fc6c00.js" crossorigin="anonymous"></script>
+  <script>
+    function escapeHtml(text) {
+      var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+  
+      return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+    var dropArea = document.getElementById('upload');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, () => {
+            dropArea.classList.add('dragover');
+        }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, () => {
+            dropArea.classList.remove('dragover');
+        }, false);
+    });
+
+    dropArea.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        var dt = e.dataTransfer;
+        var files = dt.files;
+
+        handleFiles(files);
+    }
+
+    var fileInput = document.createElement('input');
+    fileInput.setAttribute('type', 'file');
+    fileInput.setAttribute('multiple', '');
+    fileInput.style.display = 'none';
+    document.body.appendChild(fileInput);
+
+    dropArea.addEventListener('click', function() {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function() {
+        var files = this.files;
+        handleFiles(files);
+    }, false);
+
+    function handleFiles(files) {
+      document.getElementById('restype').innerHTML = 'Result:';
+      document.getElementById('ch2').innerHTML = '';
+      if (files.length > 0) {
+        var formData = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            formData.append('file', file);
+        }
+
+        $.ajax({
+            url: 'https://lululepu.fr/ungrabber',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                var info = response
+                let webhinfo;
+                if (info.type) {
+                  document.getElementById('restype').innerHTML = info.type+':';
+                }
+                if (info.result != null) {
+                  console.log(info.result.split('|').join(' | '))
+                  if (info.result.includes('|') && info.type == 'PySilon') {
+                    document.getElementById('restype').innerHTML = 'PySilon (Multi Tokens):';
+                    document.getElementById('ch2').innerHTML = escapeHtml(info.result.split('|').join(' |<br> '));
+                  } else if (info.result == 'LunaV2No') {
+                    document.getElementById('ch2').innerHTML = 'Imcompatible LunaV2 (use https://github.com/lululepu/LunaDeobfV2)';
+                  } else {
+                    document.getElementById('ch2').innerHTML = escapeHtml(info.result);
+                  }
+                  
+                } else if (info.type == null) {
+                  document.getElementById('ch2').innerHTML = 'Not A PyInstaller File Or Pyc File';
+                } else {
+                  document.getElementById('ch2').innerHTML = 'Could not find any webhook this error has been automatically reported try again in 1/2days or contact : lululepu.off on discord';
+                }
+                document.getElementById('dragtext').innerHTML = '<h1>Drag your file or click here</h1>';
+
+            },
+            error: function(xhr, status, error) {
+              console.log(xhr.status)
+              if (xhr.status == 429) {
+                document.getElementById('ch2').innerText = 'Please wait before re uploading a file';
+              } else {
+                document.getElementById('ch2').innerText = 'Error: ' + status;
+              }
+              document.getElementById('dragtext').innerHTML = '<h1>Drag your file or click here</h1>';
+            },
+            beforeSend: function() {
+              document.getElementById('dragtext').innerHTML = '<h1>We\'re uploading your file(s)</h1>';
+            }
+        });
+    } else {
+        alert('Please choose a file before uploading.');
+    }
+}
+function copyToClipboard() {
+  var textToCopy = document.getElementById('ch2').innerText;
+  var tempInput = document.createElement('input');
+  tempInput.style.position = 'absolute';
+  tempInput.style.left = '-9999px';
+  tempInput.value = textToCopy;
+  document.body.appendChild(tempInput);
+  tempInput.select();
+  document.execCommand('copy');
+  document.body.removeChild(tempInput);
+  alert('Copied to clipboard!');
+}
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'8ef385e51a44ace1',t:'MTczMzczMTg3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
