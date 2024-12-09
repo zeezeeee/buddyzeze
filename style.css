@@ -1,0 +1,56 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background: #141414;
+  color: white;
+}
+
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #141414;
+}
+
+.main {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.main h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+}
+
+.idk {
+  border: 2px dashed white;
+  padding: 20px;
+  cursor: pointer;
+}
+
+#dragtext, .restype, .ch2, .support {
+  margin-top: 20px;
+}
+
+a.supporta {
+  color: #fff;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.fa-discord {
+  font-size: 2em;
+  margin: 10px;
+}
+
+#upload.dragover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
