@@ -1,6 +1,6 @@
-local http = game:GetService("HttpService")
-local key = getgenv().key -- Fetch the assigned key from getgenv()
-local userHwid = game:GetService("Players").LocalPlayer.UserId -- Example of HWID, you can replace it with actual HWID logic
+-- Fetch the assigned key from getgenv()
+local key = getgenv().key  -- The key you set before executing this script
+local userHwid = game:GetService("Players").LocalPlayer.UserId  -- Example HWID (UserId)
 local webhook_url = "https://discord.com/api/webhooks/1315519394700464149/NQDBoAYSWFeKh8b9HpCaYvEk3sz5sOWEtCRp6UlfgoYee8OfvJm3Nb-jN9wSLmy37-Gl"
 
 -- List of valid keys
@@ -35,15 +35,25 @@ local function sendToWebhook(key, hwid)
         },
         attachments = {}
     }
-    
-    local jsonData = http:JSONEncode(data)
-    http:PostAsync(webhook_url, jsonData, Enum.HttpContentType.ApplicationJson)
+
+    local jsonData = game:GetService("HttpService"):JSONEncode(data)
+    local success, response = pcall(function()
+        return game:GetService("HttpService"):PostAsync(webhook_url, jsonData, Enum.HttpContentType.ApplicationJson)
+    end)
+
+    if success then
+        print("Data sent to webhook successfully.")
+    else
+        print("Failed to send data to webhook: " .. response)
+    end
 end
 
 -- Validate the key and proceed
-if isKeyValid(key) then
+if key == nil then
+    print("Error: Key is missing. Make sure you set the key using 'getgenv().key' before running the script.")
+elseif isKeyValid(key) then
     print("Hi, the key is valid.")
-    sendToWebhook(key, userHwid) -- Send the key and HWID to the webhook
+    sendToWebhook(key, userHwid)  -- Send the key and HWID to the webhook
 else
     print("Invalid key.")
 end
