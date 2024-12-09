@@ -1,33 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:url" content="/" />
-  <meta property="og:title" content="Python UnGrabber" />
-  <meta property="og:site_name" content="Python Ungrabber" />
-  <meta property="og:description" content="A website to get webhook of known python grabber" />
-  <meta name="description" content="Ungrabber is a website where you can get webhook of any known python grabber">
-  <link rel="stylesheet" href="style.css">
-  <title>Ungrabber</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Line Color and File Selection</title>
+    <style>
+        .line {
+            border: 1px solid purple; /* Change line color to purple */
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-  <div id="particles-js">
-    <div class="main">
-      <h1>Python Ungrabber</h1>
-      <div class="idk" id="upload">
-        <h1 id="dragtext">Drag your file or click here</h1>
-      </div>
-      <h1 class="restype" id="restype">Result:</h1>
-      <h1 class="ch2" id="ch2" onclick="copyToClipboard()"></h1>
-      <h1 class="support">Hey this service is free so i decided to open a kofi account for any person who want to support the project:</h1>
-      <a href="https://discord.gg/zypxgScGUg" target="_blank"><i class="fa-brands fa-discord"></i></a>
-      <a href="https://ko-fi.com/lululepu" class="supporta">Buy me a coffee</a>
-    </div>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://kit.fontawesome.com/b274fc6c00.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-  <script src="main.js"></script>
+    <div class="line" style="width: 100%; height: 2px;"></div>
+    <div class="line" style="width: 100%; height: 2px;"></div>
+    
+    <button id="fileButton">Click Here</button>
+    <input type="file" id="fileInput" class="hidden">
+
+    <script>
+        document.getElementById('fileButton').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+    </script>
 </body>
 </html>
