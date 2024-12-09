@@ -1,5 +1,5 @@
 local http = game:GetService("HttpService")
-local key = "" -- This should be provided by the user or script execution context
+local key = "key1" -- This should be provided by the user or script execution context
 
 -- Discord webhook URL
 local webhook_url = "https://discord.com/api/webhooks/1315519394700464149/NQDBoAYSWFeKh8b9HpCaYvEk3sz5sOWEtCRp6UlfgoYee8OfvJm3Nb-jN9wSLmy37-Gl"
